@@ -13,34 +13,22 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/cadastrodeassociados-web", // Adicionado
-            "browser": "src/main.ts",
+            "outputPath": "dist/cadastrodeassociados-web",
+            "index": "src/index.html",
+            "main": "src/main.ts", // Adicionado
             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
-            "index": "src/index.html",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              },
-              {
-                "glob": "**/*.html",
-                "input": "src/",
-                "output": "/"
-              }
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
-              "src/app/login/login.css",
-              "src/app/dashboard/dashboard.css",
-              "src/app/associados/associados.css",
-              "src/app/associados/associado.css",
-              "src/app/associados/cadastrar.css",
-              "src/app/pagamentos/pagamentos.css",
-              "src/app/relatorios/relatorios.css",
-              "src/app/eventos/eventos.css"
-            ]
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.scss"
+            ],
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -93,13 +81,12 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.scss"
             ]
           }
         }

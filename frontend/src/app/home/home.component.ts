@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { CommonModule } from '@angular/common'; // Importar CommonModule
 
 @Component({
   selector: 'app-home',
   template: '', // Este componente não precisa de um template visível, apenas lógica de redirecionamento
-  standalone: false // Adicionado explicitamente para usar NgModules
+  standalone: true, // AGORA É STANDALONE
+  imports: [
+    CommonModule,
+    RouterModule // Para routerLink, se usado no template (aqui não, mas boa prática)
+  ]
 })
 export class HomeComponent implements OnInit {
 

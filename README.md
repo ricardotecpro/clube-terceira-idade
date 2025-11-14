@@ -100,3 +100,19 @@ A aplicação estará disponível em `http://localhost:4200`.
 2.  Use as credenciais `admin`/`password` ou `secretario`/`password` (após atualizar os hashes no `data.sql` do backend) para fazer login.
 3.  Após o login bem-sucedido, você será redirecionado para o Dashboard.
 4.  O botão "Sair" no menu lateral fará o logout.
+
+
+---
+
+# Limpa o cache do npm
+npm cache clean --force
+
+# Remove o diretório node_modules de forma recursiva e forçada
+Remove-Item -Path "node_modules" -Recurse -Force
+
+# Remove o arquivo package-lock.json
+Remove-Item -Path "package-lock.json" -Force
+
+# Reinstala as dependências do npm, forçando a instalação
+npm install --force
+

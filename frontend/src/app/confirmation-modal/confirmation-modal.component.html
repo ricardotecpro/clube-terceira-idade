@@ -1,10 +1,12 @@
 <div class="modal-overlay" *ngIf="showModal">
-  <div class="modal-content">
-    <h2>Confirmação</h2>
-    <p>{{ message }}</p>
-    <div class="modal-actions">
-      <button class="btn btn-cancel" (click)="cancel()">Cancelar</button>
-      <button class="btn btn-submit" (click)="confirm()">Confirmar</button>
-    </div>
-  </div>
+  <mat-card class="modal-content">
+    <mat-card-title>Confirmação</mat-card-title>
+    <mat-card-content>
+      <p>{{ message }}</p>
+    </mat-card-content>
+    <mat-card-actions class="modal-actions">
+      <button mat-button (click)="cancel()">Cancelar</button>
+      <button mat-raised-button color="warn" (click)="confirm()">Confirmar</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

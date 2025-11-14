@@ -1,12 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from './dashboard.service';
 import { NotificationService } from '../notification.service';
+import { CommonModule } from '@angular/common'; // Importar CommonModule
+
+// Importar módulos Angular Material
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
-  standalone: false
+  standalone: true, // AGORA É STANDALONE
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatIconModule
+  ]
 })
 export class DashboardComponent implements OnInit {
   metrics: any = {};

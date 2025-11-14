@@ -1,31 +1,53 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'; // Importar
-import { NotificationService } from '../notification.service'; // Importar
+import { Router, RouterModule } from '@angular/router'; // Importar RouterModule
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // Importar ReactiveFormsModule
+import { NotificationService } from '../notification.service';
+import { CommonModule } from '@angular/common'; // Importar CommonModule
+
+// Importar módulos Angular Material
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core'; // Para MatDatepicker
 
 @Component({
   selector: 'app-cadastrar',
   templateUrl: './cadastrar.html',
-  standalone: false,
-  styleUrls: ['./cadastrar.css']
+  styleUrls: ['./cadastrar.css'],
+  standalone: true, // AGORA É STANDALONE
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ]
 })
 export class CadastrarComponent implements OnInit {
 
-  associadoForm!: FormGroup; // Usar FormGroup
+  associadoForm!: FormGroup;
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private fb: FormBuilder, // Injetar FormBuilder
-    private notificationService: NotificationService // Injetar
+    private fb: FormBuilder,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
     this.associadoForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       cpf: ['', [Validators.required, Validators.pattern('^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$')]],
-      dataNascimento: ['', [Validators.required]], // Validação de data pode ser mais complexa
+      dataNascimento: ['', [Validators.required]],
       situacao: ['Adimplente', [Validators.required]],
       cidadeId: [null, [Validators.required, Validators.min(1)]]
     });
@@ -33,7 +55,6 @@ export class CadastrarComponent implements OnInit {
 
   onSubmit() {
     if (this.associadoForm.valid) {
-      console.log('Dados de cadastro enviados:', this.associadoForm.value);
       this.http.post('/api/associados', this.associadoForm.value).subscribe({
         next: (response) => {
           this.notificationService.success('Associado cadastrado com sucesso!');
@@ -46,7 +67,7 @@ export class CadastrarComponent implements OnInit {
       });
     } else {
       this.notificationService.warning('Por favor, preencha todos os campos obrigatórios corretamente.');
-      this.associadoForm.markAllAsTouched(); // Marca todos os campos como tocados para exibir erros
+      this.associadoForm.markAllAsTouched();
     }
   }
 }

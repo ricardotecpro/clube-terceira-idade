@@ -1,24 +1,39 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'; // Importar
-import { NotificationService } from '../notification.service'; // Importar
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // Importar ReactiveFormsModule
+import { NotificationService } from '../notification.service';
+import { CommonModule } from '@angular/common'; // Importar CommonModule
+
+// Importar módulos Angular Material
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card'; // Para o container do login
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
-  standalone: false
+  standalone: true, // AGORA É STANDALONE
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule
+  ]
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup; // Usar FormGroup
+  loginForm!: FormGroup;
   loginError = false;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private fb: FormBuilder, // Injetar FormBuilder
-    private notificationService: NotificationService // Injetar
+    private fb: FormBuilder,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -29,7 +44,7 @@ export class LoginComponent implements OnInit {
   }
 
   fazerLogin() {
-    this.loginError = false; // Resetar erro ao tentar login
+    this.loginError = false;
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value)
         .subscribe(success => {

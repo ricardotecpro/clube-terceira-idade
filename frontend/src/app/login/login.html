@@ -1,40 +1,78 @@
 <div class="login-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Clube da Terceira Idade</mat-card-title>
+      <mat-card-subtitle>Acesso ao Sistema</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="fazerLogin()">
+        <mat-form-field appearance="fill">
+          <mat-label>Usuário</mat-label>
+          <input matInput formControlName="username" required>
+          <mat-error *ngIf="loginForm.get('username')?.hasError('required')">Usuário é obrigatório.</mat-error>
+          <mat-error *ngIf="loginForm.get('username')?.hasError('minlength')">Usuário deve ter no mínimo 3 caracteres.</mat-error>
+        </mat-form-field>
 
-  <h1>Clube da Terceira Idade</h1>
-  <h2>Acesso ao Sistema</h2>
+        <mat-form-field appearance="fill">
+          <mat-label>Senha</mat-label>
+          <input matInput type="password" formControlName="password" required>
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Senha é obrigatória.</mat-error>
+          <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">Senha deve ter no mínimo 6 caracteres.</mat-error>
+        </mat-form-field>
 
-  <form [formGroup]="loginForm" (ngSubmit)="fazerLogin()">
+        <div *ngIf="loginError" class="error-message">
+          Usuário ou senha inválidos.
+        </div>
 
-    <div class="form-group">
-      <input type="text" id="username" formControlName="username" required placeholder=" ">
-      <label for="username">Usuário</label>
-      <div *ngIf="loginForm.get('username')?.invalid && (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)" class="error-message">
-        <div *ngIf="loginForm.get('username')?.errors?.['required']">Usuário é obrigatório.</div>
-        <div *ngIf="loginForm.get('username')?.errors?.['minlength']">Usuário deve ter no mínimo 3 caracteres.</div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <input type="password" id="password" formControlName="password" required placeholder=" ">
-      <label for="password">Senha</label>
-      <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)" class="error-message">
-        <div *ngIf="loginForm.get('password')?.errors?.['required']">Senha é obrigatória.</div>
-        <div *ngIf="loginForm.get('password')?.errors?.['minlength']">Senha deve ter no mínimo 6 caracteres.</div>
-      </div>
-    </div>
-
-    <div *ngIf="loginError" class="error-message">
-      Usuário ou senha inválidos.
-    </div>
-
-    <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
-  </form>
+        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Entrar</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>
 
 <style>
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--cor-fundo);
+  }
+
+  mat-card {
+    max-width: 400px;
+    width: 90%;
+    padding: 20px;
+    text-align: center;
+  }
+
+  mat-card-title {
+    color: var(--cor-principal);
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+
+  mat-card-subtitle {
+    color: #555;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  button[mat-raised-button] {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.1em;
+  }
+
   .error-message {
     color: red;
-    font-size: 0.8em;
-    margin-top: 5px;
+    font-size: 0.9em;
+    margin-top: 10px;
+    margin-bottom: 15px;
   }
 </style>

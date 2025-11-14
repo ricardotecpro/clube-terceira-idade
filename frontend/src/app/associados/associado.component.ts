@@ -1,15 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router'; // Importar RouterModule
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // Importar ReactiveFormsModule
 import { NotificationService } from '../notification.service';
 import { ConfirmationModalService } from '../confirmation-modal/confirmation-modal.service';
+import { CommonModule } from '@angular/common'; // Importar CommonModule
+import { FormsModule } from '@angular/forms'; // Importar FormsModule para [(ngModel)]
+
+// Importar módulos Angular Material
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-associado-detalhe',
   templateUrl: './associado.html',
   styleUrls: ['./associado.css'],
-  standalone: false
+  standalone: true, // AGORA É STANDALONE
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    FormsModule, // Para [(ngModel)] no modal de renovação
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule,
+    MatTableModule
+  ]
 })
 export class AssociadoDetalheComponent implements OnInit {
 
@@ -18,8 +46,9 @@ export class AssociadoDetalheComponent implements OnInit {
   mostrarModalRenovacao = false;
   novaValidadeCarteirinha: string = '';
 
-  documentos: any[] = []; // Para listar documentos
-  selectedFile: File | null = null; // Para o upload de arquivo
+  documentos: any[] = [];
+  selectedFile: File | null = null;
+  displayedDocumentColumns: string[] = ['nomeArquivo', 'tipoConteudo', 'dataUpload', 'acoes']; // Colunas para MatTable
 
   constructor(
     private route: ActivatedRoute,
@@ -44,7 +73,7 @@ export class AssociadoDetalheComponent implements OnInit {
       if (id) {
         this.associadoId = +id;
         this.carregarAssociado(this.associadoId);
-        this.carregarDocumentos(this.associadoId); // Carregar documentos
+        this.carregarDocumentos(this.associadoId);
       }
     });
   }
@@ -128,7 +157,6 @@ export class AssociadoDetalheComponent implements OnInit {
     }
   }
 
-  // Métodos para Documentos
   carregarDocumentos(associadoId: number): void {
     this.http.get<any[]>(`/api/documentos/associado/${associadoId}`).subscribe({
       next: (data) => {
@@ -157,8 +185,8 @@ export class AssociadoDetalheComponent implements OnInit {
     this.http.post(`/api/documentos/upload/${this.associadoId}`, formData).subscribe({
       next: (response) => {
         this.notificationService.success('Documento enviado com sucesso!');
-        this.selectedFile = null; // Limpa o arquivo selecionado
-        this.carregarDocumentos(this.associadoId!); // Recarrega a lista de documentos
+        this.selectedFile = null;
+        this.carregarDocumentos(this.associadoId!);
       },
       error: (error) => {
         this.notificationService.error('Erro ao enviar documento.');
@@ -183,7 +211,7 @@ export class AssociadoDetalheComponent implements OnInit {
     this.http.delete(`/api/documentos/${documentoId}`).subscribe({
       next: () => {
         this.notificationService.success('Documento excluído com sucesso!');
-        this.carregarDocumentos(this.associadoId!); // Recarrega a lista
+        this.carregarDocumentos(this.associadoId!);
       },
       error: (error) => {
         this.notificationService.error('Erro ao excluir documento.');

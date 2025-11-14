@@ -1,0 +1,164 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Importar o theming do Angular Material
+@use '@angular/material' as mat;
+
+// Definir seu tema customizado (exemplo: Deep Purple/Amber)
+$my-primary: mat.define-palette(mat.$deep-purple-palette);
+$my-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
+$my-theme: mat.define-light-theme((
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+// Incluir o tema para todos os componentes Material
+@include mat.all-component-themes($my-theme);
+
+/* Variáveis CSS globais que foram usadas nos componentes */
+:root {
+  --cor-principal: #8138c5;         /* Sua cor principal */
+  --cor-principal-hover: #521d70;   /* Sua cor hover */
+  --cor-texto-claro: #f0f2f5;
+  --cor-texto-escuro: #333;
+  --cor-fundo: #f0f2f5;
+  --cor-branco: #ffffff;
+  --cor-borda: #ddd;
+  --cor-excluir: #dc3545;
+}
+
+/* Estilos globais para o body e elementos básicos */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Estilos para o app-container (se ainda for usado) */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Estilos para o main-content-wrapper (se ainda for usado) */
+.main-content-wrapper {
+  flex: 1;
+  padding: 20px;
+  background-color: var(--cor-fundo);
+}
+
+/* Estilos para formulários e botões (se não forem totalmente substituídos por Material) */
+.form-container {
+  background-color: var(--cor-branco);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  padding: 30px;
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #444;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.btn-principal {
+  background-color: var(--cor-principal);
+  color: white;
+}
+.btn-principal:hover {
+  background-color: var(--cor-principal-hover);
+}
+
+.btn-submit {
+  background-color: var(--cor-principal);
+  color: white;
+}
+.btn-submit:hover {
+  background-color: var(--cor-principal-hover);
+}
+
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+}
+.btn-cancel:hover {
+  background-color: #5a6268;
+}
+
+.btn-delete {
+  background-color: var(--cor-excluir);
+  color: white;
+}
+.btn-delete:hover {
+  background-color: #c82333;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 5px;
+}
+
+/* Estilos para modais */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  text-align: left;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: var(--cor-principal);
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}

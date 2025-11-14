@@ -1,13 +1,24 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ConfirmationModalService } from './confirmation-modal.service';
 import { Subscription } from 'rxjs';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { CommonModule } from '@angular/common'; // Importar CommonModule
+
+// Importar módulos Angular Material
+import { MatDialogModule } from '@angular/material/dialog'; // Se for usar MatDialog
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card'; // Para o modal customizado
 
 @Component({
   selector: 'app-confirmation-modal',
   templateUrl: './confirmation-modal.component.html',
   styleUrls: ['./confirmation-modal.component.css'],
-  standalone: false // Para ser usado em NgModule
+  standalone: true, // AGORA É STANDALONE
+  imports: [
+    CommonModule,
+    MatDialogModule, // Se for usar MatDialog
+    MatButtonModule,
+    MatCardModule
+  ]
 })
 export class ConfirmationModalComponent implements OnInit, OnDestroy {
   message: string = '';

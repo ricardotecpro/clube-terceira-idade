@@ -1,94 +1,90 @@
-<header class="main-header">
-  <div class="header-title">
-    <button id="toggle-btn" title="Menu">
-      <span class="material-icons-sharp">menu</span>
-    </button>
-    <h1>Dashboard</h1>
-  </div>
+<div class="dashboard-header">
+  <h1>Dashboard</h1>
   <div class="user-info">
     <span>Olá, <strong>Secretário</strong>!</span>
   </div>
-</header>
+</div>
 
 <div class="dashboard-cards">
-
-  <div class="card associados">
-    <div class="icon">
-      <span class="material-icons-sharp">groups</span>
-    </div>
-    <div class="card-info">
-      <h3>Total de Associados</h3>
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>groups</mat-icon>
+      <mat-card-title>Total de Associados</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
       <span class="number">{{ metrics.totalAssociados }}</span>
-    </div>
-  </div>
+    </mat-card-content>
+  </mat-card>
 
-  <div class="card carteirinhas">
-    <div class="icon">
-      <span class="material-icons-sharp">credit_card</span>
-    </div>
-    <div class="card-info">
-      <h3>Associados Adimplentes</h3>
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>credit_card</mat-icon>
+      <mat-card-title>Associados Adimplentes</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
       <span class="number">{{ metrics.associadosAdimplentes }}</span>
-    </div>
-  </div>
+    </mat-card-content>
+  </mat-card>
 
-  <div class="card aniversarios">
-    <div class="icon">
-      <span class="material-icons-sharp">cake</span>
-    </div>
-    <div class="card-info">
-      <h3>Aniversariantes (Mês)</h3>
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>cake</mat-icon>
+      <mat-card-title>Aniversariantes (Mês)</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
       <span class="number">{{ metrics.aniversariantesMes }}</span>
-    </div>
-  </div>
+    </mat-card-content>
+  </mat-card>
 
-  <div class="card pagamentos">
-    <div class="icon">
-      <span class="material-icons-sharp">attach_money</span>
-    </div>
-    <div class="card-info">
-      <h3>Pagamentos Pendentes</h3>
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>attach_money</mat-icon>
+      <mat-card-title>Pagamentos Pendentes</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
       <span class="number">{{ metrics.pagamentosPendentes }}</span>
-    </div>
-  </div>
+    </mat-card-content>
+  </mat-card>
 </div>
 
 <div class="dashboard-lists">
+  <mat-card class="list-box">
+    <mat-card-title>Próximos Eventos</mat-card-title>
+    <mat-card-content>
+      <ul>
+        <li>
+          <span class="item-nome">Baile de Aniversário</span>
+          <span class="item-detalhe">28/10/2025</span>
+        </li>
+        <li>
+          <span class="item-nome">Bingo Beneficente</span>
+          <span class="item-detalhe">05/11/2025</span>
+        </li>
+        <li>
+          <span class="item-nome">Reunião da Diretoria</span>
+          <span class="item-detalhe">10/11/2025</span>
+        </li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
 
-  <div class="list-box">
-    <h2>Próximos Eventos</h2>
-    <ul>
-      <li>
-        <span class="item-nome">Baile de Aniversário</span>
-        <span class="item-detalhe">28/10/2025</span>
-      </li>
-      <li>
-        <span class="item-nome">Bingo Beneficente</span>
-        <span class="item-detalhe">05/11/2025</span>
-      </li>
-      <li>
-        <span class="item-nome">Reunião da Diretoria</span>
-        <span class="item-detalhe">10/11/2025</span>
-      </li>
-    </ul>
-  </div>
-
-  <div class="list-box">
-    <h2>Aniversariantes da Semana</h2>
-    <ul>
-      <li>
-        <span class="item-nome">José da Silva</span>
-        <span class="item-detalhe">Hoje (29/10)</span>
-      </li>
-      <li>
-        <span class="item-nome">Maria Oliveira</span>
-        <span class="item-detalhe">Amanhã (30/10)</span>
-      </li>
-      <li>
-        <span class="item-nome">Antônio Pereira</span>
-        <span class="item-detalhe">01/11</span>
-      </li>
-    </ul>
-  </div>
-
+  <mat-card class="list-box">
+    <mat-card-title>Aniversariantes da Semana</mat-card-title>
+    <mat-card-content>
+      <ul>
+        <li>
+          <span class="item-nome">José da Silva</span>
+          <span class="item-detalhe">Hoje (29/10)</span>
+        </li>
+        <li>
+          <span class="item-nome">Maria Oliveira</span>
+          <span class="item-detalhe">Amanhã (30/10)</span>
+        </li>
+        <li>
+          <span class="item-nome">Antônio Pereira</span>
+          <span class="item-detalhe">01/11</span>
+        </li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
 </div>
