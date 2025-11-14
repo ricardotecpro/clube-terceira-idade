@@ -1,0 +1,88 @@
+# Ignorar arquivos de sistema operacional
+.DS_Store
+.env
+.env.*
+.vscode/
+Thumbs.db
+
+# Ignorar diretórios e arquivos de build do Java/Maven
+/target/
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+bin/
+tmp/
+*.log
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+.mvn/wrapper/maven-wrapper.jar # Se usar Maven Wrapper, mantenha o wrapper script mas ignore o jar
+/backups/ # Diretório de backups do seu backend
+
+# Ignorar diretórios e arquivos de build do Node.js/npm/Angular
+/node_modules/
+/dist/
+/build/
+.angular/cache/ # Cache do Angular CLI
+.angular/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.idea/
+.vscode/
+*.log
+*.tsbuildinfo
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.staging.local
+
+# Ignorar arquivos de configuração de IDEs (geralmente já cobertos acima, mas bom reforçar)
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Ignorar arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos de logs
+*.log
+log/
+logs/
+
+# Ignorar arquivos de dados temporários ou de teste
+*.sqlite
+*.db
+*.mv.db # H2 database files
+*.trace.db # H2 database files
+
+# Ignorar arquivos de credenciais ou chaves
+*.key
+*.pem
+*.p12
+*.jks
+credentials.json
+google-services.json
+
+# Ignorar arquivos gerados por ferramentas de teste
+/coverage/
+
+# Ignorar arquivos de configuração de ambiente local
+.env
+.env.local
+.env.*.local
+
+# Ignorar arquivos de upload (se o backend salva arquivos localmente)
+/uploads/ # Diretório de uploads do seu backend (UC15)

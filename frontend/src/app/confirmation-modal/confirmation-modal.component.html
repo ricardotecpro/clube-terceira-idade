@@ -1,0 +1,10 @@
+<div class="modal-overlay" *ngIf="showModal">
+  <div class="modal-content">
+    <h2>Confirmação</h2>
+    <p>{{ message }}</p>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" (click)="cancel()">Cancelar</button>
+      <button class="btn btn-submit" (click)="confirm()">Confirmar</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<main class="main-content">
+  <header class="main-header">
+    <h1>Administração do Sistema</h1>
+  </header>
+
+  <div class="form-container">
+    <fieldset>
+      <legend>Backup de Dados</legend>
+      <p>Crie uma cópia de segurança do banco de dados atual.</p>
+      <div class="form-actions">
+        <button type="button" class="btn btn-principal" (click)="confirmBackup()">
+          <span class="material-icons-sharp">cloud_download</span>
+          Realizar Backup
+        </button>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Restauração de Dados</legend>
+      <p>Restaure o banco de dados a partir de um arquivo de backup existente.</p>
+      <div class="form-group">
+        <label for="backupFileName">Nome do Arquivo de Backup (.sql)</label>
+        <input type="text" id="backupFileName" [(ngModel)]="backupFileName" name="backupFileName" placeholder="Ex: backup_20231026_103000.sql">
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-submit" (click)="confirmRestore()">
+          <span class="material-icons-sharp">cloud_upload</span>
+          Restaurar Dados
+        </button>
+      </div>
+    </fieldset>
+  </div>
+</main>

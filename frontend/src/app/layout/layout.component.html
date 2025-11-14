@@ -1,0 +1,63 @@
+<div class="app-container">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>Clube da 3ª Idade</h2>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li>
+          <a routerLink="/dashboard" routerLinkActive="active">
+            <span class="material-icons-sharp">dashboard</span>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a routerLink="/associados" routerLinkActive="active">
+            <span class="material-icons-sharp">groups</span>
+            Associados
+          </a>
+        </li>
+        <li>
+          <a routerLink="/pagamentos" routerLinkActive="active">
+            <span class="material-icons-sharp">payments</span>
+            Pagamentos
+          </a>
+        </li>
+        <li>
+          <a routerLink="/relatorios" routerLinkActive="active">
+            <span class="material-icons-sharp">assessment</span>
+            Relatórios
+          </a>
+        </li>
+        <li>
+          <a routerLink="/eventos" routerLinkActive="active">
+            <span class="material-icons-sharp">event</span>
+            Eventos
+          </a>
+        </li>
+        <li>
+          <a routerLink="/mensagens" routerLinkActive="active">
+            <span class="material-icons-sharp">message</span>
+            Mensagens
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admin" routerLinkActive="active">
+            <span class="material-icons-sharp">admin_panel_settings</span>
+            Admin
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer">
+      <a (click)="logout()" style="cursor: pointer;">
+        <span class="material-icons-sharp" style="vertical-align: middle;">logout</span>
+        Sair
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet></router-outlet> <!-- Router outlet para as rotas filhas -->
+  </main>
+</div>

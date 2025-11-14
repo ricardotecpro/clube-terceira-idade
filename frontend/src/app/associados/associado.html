@@ -1,0 +1,170 @@
+<main class="main-content">
+
+  <header class="main-header">
+    <h1>Editar Associado</h1>
+  </header>
+
+  <div class="profile-container">
+    <form [formGroup]="associadoForm" (ngSubmit)="onUpdate()">
+
+      <fieldset>
+        <legend>Dados Pessoais</legend>
+        <div class="profile-grid">
+
+          <div class="data-group">
+            <label>ID Associado</label>
+            <span class="data-value">{{ associadoId }}</span>
+          </div>
+
+          <div class="form-group col-span-2">
+            <label for="nome">Nome Completo *</label>
+            <input type="text" id="nome" formControlName="nome" maxlength="100">
+            <div *ngIf="associadoForm.get('nome')?.invalid && (associadoForm.get('nome')?.dirty || associadoForm.get('nome')?.touched)" class="error-message">
+              <div *ngIf="associadoForm.get('nome')?.errors?.['required']">Nome é obrigatório.</div>
+              <div *ngIf="associadoForm.get('nome')?.errors?.['minlength']">Nome deve ter no mínimo 3 caracteres.</div>
+              <div *ngIf="associadoForm.get('nome')?.errors?.['maxlength']">Nome deve ter no máximo 100 caracteres.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cpf">CPF *</label>
+            <input type="text" id="cpf" formControlName="cpf" placeholder="Ex: 123.456.789-00">
+            <div *ngIf="associadoForm.get('cpf')?.invalid && (associadoForm.get('cpf')?.dirty || associadoForm.get('cpf')?.touched)" class="error-message">
+              <div *ngIf="associadoForm.get('cpf')?.errors?.['required']">CPF é obrigatório.</div>
+              <div *ngIf="associadoForm.get('cpf')?.errors?.['pattern']">CPF inválido. Use o formato XXX.XXX.XXX-XX.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="dataNascimento">Data de Nascimento *</label>
+            <input type="date" id="dataNascimento" formControlName="dataNascimento">
+            <div *ngIf="associadoForm.get('dataNascimento')?.invalid && (associadoForm.get('dataNascimento')?.dirty || associadoForm.get('dataNascimento')?.touched)" class="error-message">
+              <div *ngIf="associadoForm.get('dataNascimento')?.errors?.['required']">Data de Nascimento é obrigatória.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="situacao">Situação *</label>
+            <select id="situacao" formControlName="situacao">
+              <option value="Adimplente">Adimplente</option>
+              <option value="Inadimplente">Inadimplente</option>
+            </select>
+            <div *ngIf="associadoForm.get('situacao')?.invalid && (associadoForm.get('situacao')?.dirty || associadoForm.get('situacao')?.touched)" class="error-message">
+              <div *ngIf="associadoForm.get('situacao')?.errors?.['required']">Situação é obrigatória.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cidadeId">Cidade (ID) *</label>
+            <input type="number" id="cidadeId" formControlName="cidadeId">
+            <div *ngIf="associadoForm.get('cidadeId')?.invalid && (associadoForm.get('cidadeId')?.dirty || associadoForm.get('cidadeId')?.touched)" class="error-message">
+              <div *ngIf="associadoForm.get('cidadeId')?.errors?.['required']">ID da Cidade é obrigatório.</div>
+              <div *ngIf="associadoForm.get('cidadeId')?.errors?.['min']">ID da Cidade deve ser no mínimo 1.</div>
+            </div>
+          </div>
+
+        </div>
+      </fieldset>
+
+      <div class="profile-actions">
+        <button type="button" class="btn btn-back" (click)="cancelar()">Cancelar</button>
+        <button type="submit" class="btn btn-edit" [disabled]="associadoForm.invalid">Salvar Alterações</button>
+        <button type="button" class="btn btn-principal" (click)="abrirModalRenovacao()">Renovar Carteirinha</button>
+      </div>
+
+    </form>
+
+    <fieldset class="documentos-section">
+      <legend>Documentos</legend>
+      <div class="form-group">
+        <label for="fileUpload">Upload de Novo Documento:</label>
+        <input type="file" id="fileUpload" (change)="onFileSelected($event)">
+        <button type="button" class="btn btn-principal" (click)="uploadDocumento()" [disabled]="!selectedFile">
+          <span class="material-icons-sharp">upload_file</span> Upload
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome do Arquivo</th>
+              <th>Tipo</th>
+              <th>Data Upload</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doc of documentos">
+              <td>{{ doc.nomeArquivo }}</td>
+              <td>{{ doc.tipoConteudo }}</td>
+              <td>{{ doc.dataUpload | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td class="action-buttons">
+                <button class="btn-download" title="Download" (click)="downloadDocumento(doc.caminhoArmazenamento)">
+                  <span class="material-icons-sharp">download</span>
+                </button>
+                <button class="btn-delete" title="Excluir" (click)="confirmDeleteDocumento(doc.id)">
+                  <span class="material-icons-sharp">delete</span>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="documentos.length === 0">
+              <td colspan="4">Nenhum documento encontrado.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </fieldset>
+  </div>
+
+  <!-- Modal de Renovação de Carteirinha -->
+  <div class="modal-overlay" *ngIf="mostrarModalRenovacao">
+    <div class="modal-content">
+      <h2>Renovar Carteirinha</h2>
+      <div class="form-group">
+        <label for="novaValidade">Nova Data de Validade *</label>
+        <input type="date" id="novaValidade" [(ngModel)]="novaValidadeCarteirinha" name="novaValidade" required>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-cancel" (click)="fecharModalRenovacao()">Cancelar</button>
+        <button type="button" class="btn btn-submit" (click)="confirmRenovarCarteirinha()">Renovar</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<style>
+  .error-message {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+  }
+  .documentos-section {
+    margin-top: 30px;
+  }
+  .documentos-section .form-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .documentos-section .form-group input[type="file"] {
+    flex-grow: 1;
+  }
+  .documentos-section .table-container {
+    margin-top: 20px;
+  }
+  .documentos-section .btn-download {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  .documentos-section .btn-download:hover {
+    background-color: #0056b3;
+  }
+</style>

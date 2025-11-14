@@ -1,0 +1,99 @@
+<header class="main-header">
+  <h1>Associados</h1>
+</header>
+
+<div class="action-bar">
+  <form [formGroup]="searchForm" (ngSubmit)="buscar()" class="search-form">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" formControlName="nome" placeholder="Buscar por Nome...">
+      </div>
+      <div class="form-group">
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" formControlName="cpf" placeholder="Buscar por CPF...">
+      </div>
+      <div class="form-group">
+        <label for="situacao">Situação:</label>
+        <select id="situacao" formControlName="situacao">
+          <option value="">Todas</option>
+          <option value="Adimplente">Adimplente</option>
+          <option value="Inadimplente">Inadimplente</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="bairro">Bairro:</label>
+        <input type="text" id="bairro" formControlName="bairro" placeholder="Buscar por Bairro...">
+      </div>
+      <div class="form-group">
+        <label for="escolaridade">Escolaridade:</label>
+        <input type="text" id="escolaridade" formControlName="escolaridade" placeholder="Buscar por Escolaridade...">
+      </div>
+      <div class="form-group action-buttons-search">
+        <button type="submit" class="btn btn-principal">
+          <span class="material-icons-sharp">search</span>
+          Buscar
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <a routerLink="/associados/cadastrar" class="btn-principal">
+    <span class="material-icons-sharp">add</span>
+    Adicionar Novo
+  </a>
+</div>
+
+<div class="table-container">
+  <table>
+    <thead>
+    <tr>
+      <th>Nº Associado</th>
+      <th>Nome Completo</th>
+      <th>CPF</th>
+      <th>Situação</th>
+      <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let associado of associados">
+      <td>{{ associado.id }}</td>
+      <td>{{ associado.nome }}</td>
+      <td>{{ associado.cpf }}</td>
+      <td>{{ associado.situacao }}</td>
+      <td class="action-buttons">
+        <a [routerLink]="['/associados/editar', associado.id]" class="btn-edit" title="Editar">
+          <span class="material-icons-sharp">edit</span>
+        </a>
+        <button class="btn-payment" title="Ver Pagamentos">
+          <span class="material-icons-sharp">payments</span>
+        </button>
+        <button class="btn-delete" title="Excluir" (click)="confirmDeleteAssociado(associado.id)">
+          <span class="material-icons-sharp">delete</span>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .search-form {
+    flex-grow: 1;
+    margin-right: 20px;
+  }
+  .search-form .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    align-items: end;
+  }
+  .search-form .form-group {
+    margin-bottom: 0;
+  }
+  .search-form .action-buttons-search {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+</style>

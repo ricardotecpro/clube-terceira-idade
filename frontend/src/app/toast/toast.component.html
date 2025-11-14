@@ -1,0 +1,13 @@
+<div *ngIf="currentNotification" class="toast-container" [ngClass]="currentNotification.type">
+  <div class="toast-content">
+    <span class="material-icons-sharp toast-icon">
+      {{ currentNotification.type === 'success' ? 'check_circle' :
+         currentNotification.type === 'error' ? 'error' :
+         currentNotification.type === 'warning' ? 'warning' : 'info' }}
+    </span>
+    <p>{{ currentNotification.message }}</p>
+    <button class="toast-close-btn" (click)="closeToast()">
+      <span class="material-icons-sharp">close</span>
+    </button>
+  </div>
+</div>

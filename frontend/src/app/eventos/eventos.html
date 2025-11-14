@@ -1,0 +1,109 @@
+<header class="main-header">
+  <h1>Eventos</h1>
+</header>
+
+<div class="action-bar">
+  <button class="btn-principal" (click)="abrirFormularioCriacao()">
+    <span class="material-icons-sharp">add</span>
+    Criar Novo Evento
+  </button>
+</div>
+
+<div class="event-grid">
+  <div class="event-card" *ngFor="let evento of eventos">
+    <div class="event-card-header">
+      <h2>{{ evento.nome }}</h2>
+      <div class="date">
+        <span class="material-icons-sharp">calendar_today</span>
+        <span>{{ evento.data | date:'dd/MM/yyyy' }}</span>
+        <span *ngIf="evento.hora"> às {{ evento.hora }}</span>
+      </div>
+      <div class="location" *ngIf="evento.local">
+        <span class="material-icons-sharp">location_on</span>
+        <span>{{ evento.local }}</span>
+      </div>
+    </div>
+    <div class="event-card-body">
+      <p>{{ evento.descricao }}</p>
+      <p *ngIf="evento.participantes">Participantes: {{ evento.participantes }}</p>
+    </div>
+    <div class="event-card-footer">
+      <button class="btn-inscritos" title="Ver Inscritos">
+        <span class="material-icons-sharp">people</span>
+      </button>
+      <button class="btn-edit" title="Editar Evento" (click)="prepararEdicao(evento)">
+        <span class="material-icons-sharp">edit</span>
+      </button>
+      <button class="btn-delete" title="Cancelar Evento" (click)="confirmDeleteEvento(evento.id)">
+        <span class="material-icons-sharp">delete</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Formulário de Criação/Edição de Evento (Modal) -->
+<div class="modal-overlay" *ngIf="mostrarFormularioCriacao">
+  <div class="modal-content">
+    <h2>{{ eventoEmEdicaoId ? 'Editar Evento' : 'Criar Novo Evento' }}</h2>
+    <form [formGroup]="eventoForm" (ngSubmit)="criarOuAtualizarEvento()">
+      <div class="form-group">
+        <label for="nomeEvento">Nome do Evento *</label>
+        <input type="text" id="nomeEvento" formControlName="nome">
+        <div *ngIf="eventoForm.get('nome')?.invalid && (eventoForm.get('nome')?.dirty || eventoForm.get('nome')?.touched)" class="error-message">
+          <div *ngIf="eventoForm.get('nome')?.errors?.['required']">Nome do evento é obrigatório.</div>
+          <div *ngIf="eventoForm.get('nome')?.errors?.['minlength']">Nome deve ter no mínimo 3 caracteres.</div>
+          <div *ngIf="eventoForm.get('nome')?.errors?.['maxlength']">Nome deve ter no máximo 100 caracteres.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="dataEvento">Data *</label>
+        <input type="date" id="dataEvento" formControlName="data">
+        <div *ngIf="eventoForm.get('data')?.invalid && (eventoForm.get('data')?.dirty || eventoForm.get('data')?.touched)" class="error-message">
+          <div *ngIf="eventoForm.get('data')?.errors?.['required']">Data do evento é obrigatória.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="horaEvento">Hora *</label>
+        <input type="time" id="horaEvento" formControlName="hora">
+        <div *ngIf="eventoForm.get('hora')?.invalid && (eventoForm.get('hora')?.dirty || eventoForm.get('hora')?.touched)" class="error-message">
+          <div *ngIf="eventoForm.get('hora')?.errors?.['required']">Hora do evento é obrigatória.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="localEvento">Local *</label>
+        <input type="text" id="localEvento" formControlName="local" maxlength="100">
+        <div *ngIf="eventoForm.get('local')?.invalid && (eventoForm.get('local')?.dirty || eventoForm.get('local')?.touched)" class="error-message">
+          <div *ngIf="eventoForm.get('local')?.errors?.['required']">Local do evento é obrigatório.</div>
+          <div *ngIf="eventoForm.get('local')?.errors?.['minlength']">Local deve ter no mínimo 3 caracteres.</div>
+          <div *ngIf="eventoForm.get('local')?.errors?.['maxlength']">Local deve ter no máximo 100 caracteres.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="descricaoEvento">Descrição</label>
+        <textarea id="descricaoEvento" formControlName="descricao" maxlength="500"></textarea>
+        <div *ngIf="eventoForm.get('descricao')?.invalid && (eventoForm.get('descricao')?.dirty || eventoForm.get('descricao')?.touched)" class="error-message">
+          <div *ngIf="eventoForm.get('descricao')?.errors?.['maxlength']">Descrição deve ter no máximo 500 caracteres.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="participantesEvento">Participantes (nomes ou IDs)</label>
+        <input type="text" id="participantesEvento" formControlName="participantes" maxlength="255">
+        <div *ngIf="eventoForm.get('participantes')?.invalid && (eventoForm.get('participantes')?.dirty || eventoForm.get('participantes')?.touched)" class="error-message">
+          <div *ngIf="eventoForm.get('participantes')?.errors?.['maxlength']">Participantes deve ter no máximo 255 caracteres.</div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel" (click)="fecharFormulario()">Cancelar</button>
+        <button type="submit" class="btn btn-submit" [disabled]="eventoForm.invalid">{{ eventoEmEdicaoId ? 'Salvar Alterações' : 'Criar Evento' }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  .error-message {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+  }
+</style>

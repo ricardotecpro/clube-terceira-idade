@@ -1,0 +1,56 @@
+<header class="main-header">
+  <h1>Relatórios</h1>
+</header>
+
+<div class="form-container">
+  <form [formGroup]="relatorioForm">
+    <fieldset>
+      <legend>Filtros para Relatórios de Associados</legend>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="filtroBairro">Filtrar por Bairro:</label>
+          <input type="text" id="filtroBairro" formControlName="filtroBairro" placeholder="Ex: Centro">
+        </div>
+        <div class="form-group">
+          <label for="filtroEscolaridade">Filtrar por Escolaridade:</label>
+          <input type="text" id="filtroEscolaridade" formControlName="filtroEscolaridade" placeholder="Ex: Ensino Médio">
+        </div>
+        <div class="form-group">
+          <label for="idadeMin">Idade Mínima:</label>
+          <input type="number" id="idadeMin" formControlName="idadeMin" placeholder="Ex: 18">
+          <div *ngIf="relatorioForm.get('idadeMin')?.invalid && (relatorioForm.get('idadeMin')?.dirty || relatorioForm.get('idadeMin')?.touched)" class="error-message">
+            <div *ngIf="relatorioForm.get('idadeMin')?.errors?.['min']">Idade mínima deve ser 0 ou mais.</div>
+            <div *ngIf="relatorioForm.get('idadeMin')?.errors?.['max']">Idade mínima não pode exceder 150.</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="idadeMax">Idade Máxima:</label>
+          <input type="number" id="idadeMax" formControlName="idadeMax" placeholder="Ex: 60">
+          <div *ngIf="relatorioForm.get('idadeMax')?.invalid && (relatorioForm.get('idadeMax')?.dirty || relatorioForm.get('idadeMax')?.touched)" class="error-message">
+            <div *ngIf="relatorioForm.get('idadeMax')?.errors?.['min']">Idade máxima deve ser 0 ou mais.</div>
+            <div *ngIf="relatorioForm.get('idadeMax')?.errors?.['max']">Idade máxima não pode exceder 150.</div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-submit" (click)="gerarPdfAssociados()">
+        <span class="material-icons-sharp">picture_as_pdf</span>
+        Gerar PDF
+      </button>
+      <button type="button" class="btn btn-submit" (click)="gerarExcelAssociados()">
+        <span class="material-icons-sharp">description</span>
+        Gerar Excel
+      </button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .error-message {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+  }
+</style>

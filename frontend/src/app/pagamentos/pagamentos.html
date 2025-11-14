@@ -1,0 +1,95 @@
+<header class="main-header">
+  <h1>Pagamentos</h1>
+</header>
+
+<div class="action-bar">
+  <div class="search-box">
+    <span class="material-icons-sharp">search</span>
+    <input type="text" placeholder="Buscar por Nome, CPF ou Mês...">
+  </div>
+
+  <button class="btn-principal" (click)="abrirFormularioPagamento()">
+    <span class="material-icons-sharp">add</span>
+    Lançar Pagamento
+  </button>
+</div>
+
+<div class="table-container">
+  <table>
+    <thead>
+    <tr>
+      <th>Associado</th>
+      <th>CPF</th>
+      <th>Vencimento</th>
+      <th>Valor (R$)</th>
+      <th>Situação</th>
+      <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let pagamento of pagamentos">
+      <td>{{ pagamento.associado?.nome }}</td>
+      <td>{{ pagamento.associado?.cpf }}</td>
+      <td>{{ pagamento.dataPagamento | date:'dd/MM/yyyy' }}</td>
+      <td>{{ pagamento.valor | number:'1.2-2' }}</td>
+      <td><span class="status" [ngClass]="{'pago': pagamento.formaPagamento, 'pendente': !pagamento.formaPagamento}">{{ pagamento.formaPagamento ? 'Pago' : 'Pendente' }}</span></td>
+      <td class="action-buttons">
+        <a *ngIf="pagamento.formaPagamento" href="#" class="btn-recibo" title="Ver Recibo">
+          <span class="material-icons-sharp">receipt_long</span>
+        </a>
+        <button *ngIf="!pagamento.formaPagamento" class="btn-baixar" title="Dar Baixa (Pagar)" (click)="confirmDarBaixa(pagamento)"> <!-- Alterado aqui -->
+          <span class="material-icons-sharp">check_circle</span>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Formulário de Lançar Pagamento (Modal ou similar) -->
+<div class="modal-overlay" *ngIf="mostrarFormularioPagamento">
+  <div class="modal-content">
+    <h2>Lançar Novo Pagamento</h2>
+    <form [formGroup]="pagamentoForm" (ngSubmit)="lancarPagamento()"> <!-- Alterado aqui -->
+      <div class="form-group">
+        <label for="associadoSelect">Associado</label>
+        <select id="associadoSelect" formControlName="associadoId"> <!-- Alterado aqui -->
+          <option [ngValue]="null" disabled>Selecione um Associado</option>
+          <option *ngFor="let associado of associadosDisponiveis" [ngValue]="associado.id">
+            {{ associado.nome }} ({{ associado.cpf }})
+          </option>
+        </select>
+        <div *ngIf="pagamentoForm.get('associadoId')?.invalid && (pagamentoForm.get('associadoId')?.dirty || pagamentoForm.get('associadoId')?.touched)" class="error-message">
+          <div *ngIf="pagamentoForm.get('associadoId')?.errors?.['required']">Associado é obrigatório.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="valor">Valor (R$)</label>
+        <input type="number" id="valor" formControlName="valor" step="0.01"> <!-- Alterado aqui -->
+        <div *ngIf="pagamentoForm.get('valor')?.invalid && (pagamentoForm.get('valor')?.dirty || pagamentoForm.get('valor')?.touched)" class="error-message">
+          <div *ngIf="pagamentoForm.get('valor')?.errors?.['required']">Valor é obrigatório.</div>
+          <div *ngIf="pagamentoForm.get('valor')?.errors?.['min']">Valor deve ser maior que zero.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="dataPagamento">Data de Vencimento</label>
+        <input type="date" id="dataPagamento" formControlName="dataPagamento"> <!-- Alterado aqui -->
+        <div *ngIf="pagamentoForm.get('dataPagamento')?.invalid && (pagamentoForm.get('dataPagamento')?.dirty || pagamentoForm.get('dataPagamento')?.touched)" class="error-message">
+          <div *ngIf="pagamentoForm.get('dataPagamento')?.errors?.['required']">Data de Vencimento é obrigatória.</div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel" (click)="fecharFormularioPagamento()">Cancelar</button>
+        <button type="submit" class="btn btn-submit" [disabled]="pagamentoForm.invalid">Lançar</button> <!-- Alterado aqui -->
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  .error-message {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+  }
+</style>

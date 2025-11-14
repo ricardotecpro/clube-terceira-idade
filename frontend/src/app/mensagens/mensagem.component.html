@@ -1,0 +1,64 @@
+<main class="main-content">
+  <header class="main-header">
+    <h1>Enviar Mensagens</h1>
+  </header>
+
+  <div class="form-container">
+    <form [formGroup]="mensagemForm" (ngSubmit)="onSubmit()">
+      <fieldset>
+        <legend>Detalhes da Mensagem</legend>
+        <div class="form-grid">
+          <div class="form-group col-span-2">
+            <label for="conteudo">Conteúdo da Mensagem *</label>
+            <textarea id="conteudo" formControlName="conteudo" rows="5" maxlength="500"></textarea>
+            <div *ngIf="mensagemForm.get('conteudo')?.invalid && (mensagemForm.get('conteudo')?.dirty || mensagemForm.get('conteudo')?.touched)" class="error-message">
+              <div *ngIf="mensagemForm.get('conteudo')?.errors?.['required']">O conteúdo é obrigatório.</div>
+              <div *ngIf="mensagemForm.get('conteudo')?.errors?.['minlength']">Mínimo de 1 caractere.</div>
+              <div *ngIf="mensagemForm.get('conteudo')?.errors?.['maxlength']">Máximo de 500 caracteres.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="tipo">Tipo de Mensagem *</label>
+            <select id="tipo" formControlName="tipo">
+              <option *ngFor="let tipo of tiposMensagem" [value]="tipo">{{ tipo }}</option>
+            </select>
+            <div *ngIf="mensagemForm.get('tipo')?.invalid && (mensagemForm.get('tipo')?.dirty || mensagemForm.get('tipo')?.touched)" class="error-message">
+              <div *ngIf="mensagemForm.get('tipo')?.errors?.['required']">O tipo é obrigatório.</div>
+            </div>
+          </div>
+
+          <div class="form-group col-span-2">
+            <label for="destinatarioIds">Destinatários *</label>
+            <select multiple id="destinatarioIds" formControlName="destinatarioIds" size="5">
+              <option *ngFor="let associado of associados" [value]="associado.id">
+                {{ associado.nome }} ({{ associado.cpf }})
+              </option>
+            </select>
+            <div *ngIf="mensagemForm.get('destinatarioIds')?.invalid && (mensagemForm.get('destinatarioIds')?.dirty || mensagemForm.get('destinatarioIds')?.touched)" class="error-message">
+              <div *ngIf="mensagemForm.get('destinatarioIds')?.errors?.['required']">Selecione pelo menos um destinatário.</div>
+              <div *ngIf="mensagemForm.get('destinatarioIds')?.errors?.['minlength']">Selecione pelo menos um destinatário.</div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-submit" [disabled]="mensagemForm.invalid">Enviar Mensagem</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<style>
+  .error-message {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+  }
+  /* Estilos para o multi-select */
+  select[multiple] {
+    height: auto;
+    min-height: 150px;
+  }
+</style>
