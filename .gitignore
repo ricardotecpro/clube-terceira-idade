@@ -1,12 +1,20 @@
-# Ignorar arquivos de sistema operacional
+############################################
+# Arquivos de sistema operacional
+############################################
 .DS_Store
-.env
-.env.*
-.vscode/
 Thumbs.db
 
-# Ignorar diretórios e arquivos de build do Java/Maven
-/target/
+############################################
+# Variáveis de ambiente
+############################################
+.env
+.env.*
+.env.local
+.env.*.local
+
+############################################
+# Configurações de IDE
+############################################
 .idea/
 .vscode/
 *.iml
@@ -15,60 +23,53 @@ Thumbs.db
 .project
 .classpath
 .settings/
+
+############################################
+# Logs
+############################################
+*.log
+log/
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+############################################
+# Java / Maven
+############################################
+/target/
 bin/
 tmp/
-*.log
 *.class
 *.jar
 *.war
 *.ear
 hs_err_pid*
-.mvn/wrapper/maven-wrapper.jar # Se usar Maven Wrapper, mantenha o wrapper script mas ignore o jar
-/backups/ # Diretório de backups do seu backend
+.mvn/wrapper/maven-wrapper.jar
+/backups/
+.settings/
 
-# Ignorar diretórios e arquivos de build do Node.js/npm/Angular
+############################################
+# Node.js / Angular
+############################################
 /node_modules/
 /dist/
 /build/
-.angular/cache/ # Cache do Angular CLI
 .angular/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.idea/
-.vscode/
-*.log
+.angular/cache/
 *.tsbuildinfo
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.staging.local
 
-# Ignorar arquivos de configuração de IDEs (geralmente já cobertos acima, mas bom reforçar)
-.idea/
-.vscode/
-*.iml
-*.ipr
-*.iws
-
-# Ignorar arquivos de sistema
-.DS_Store
-Thumbs.db
-
-# Ignorar arquivos de logs
-*.log
-log/
-logs/
-
-# Ignorar arquivos de dados temporários ou de teste
+############################################
+# Bancos de dados / arquivos temporários
+############################################
 *.sqlite
 *.db
-*.mv.db # H2 database files
-*.trace.db # H2 database files
+*.mv.db
+*.trace.db
 
-# Ignorar arquivos de credenciais ou chaves
+############################################
+# Credenciais e chaves (NUNCA versionar)
+############################################
 *.key
 *.pem
 *.p12
@@ -76,13 +77,12 @@ logs/
 credentials.json
 google-services.json
 
-# Ignorar arquivos gerados por ferramentas de teste
+############################################
+# Ferramentas de teste
+############################################
 /coverage/
 
-# Ignorar arquivos de configuração de ambiente local
-.env
-.env.local
-.env.*.local
-
-# Ignorar arquivos de upload (se o backend salva arquivos localmente)
-/uploads/ # Diretório de uploads do seu backend (UC15)
+############################################
+# Uploads (arquivos gerados no backend)
+############################################
+/uploads/
