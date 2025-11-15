@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Adicionar Nova Cidade</h2>
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="fill" style="width: 100%;">
+    <mat-label>Nome da Cidade</mat-label>
+    <input matInput formControlName="nome" required>
+    <mat-error *ngIf="form.get('nome')?.invalid">Nome da cidade é obrigatório.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 100%;">
+    <mat-label>Estado (UF)</mat-label>
+    <input matInput formControlName="estado" required maxlength="2">
+    <mat-error *ngIf="form.get('estado')?.invalid">Estado (UF) é obrigatório e deve ter 2 caracteres.</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="form.invalid">Salvar</button>
+</mat-dialog-actions>

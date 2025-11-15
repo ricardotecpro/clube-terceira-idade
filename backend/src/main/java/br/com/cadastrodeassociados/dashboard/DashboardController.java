@@ -38,12 +38,10 @@ public class DashboardController {
         // Pagamentos Pendentes (simplificado: pagamentos sem forma de pagamento)
         metrics.put("pagamentosPendentes", pagamentoRepository.countByFormaPagamentoIsNull());
 
-        // Aniversariantes do Mês (simplificado: apenas o mês atual)
+        // Aniversariantes do Mês
         LocalDate hoje = LocalDate.now();
         int mesAtual = hoje.getMonthValue();
-        // Isso exigiria uma query mais complexa no AssociadoRepository para filtrar por mês de nascimento
-        // metrics.put("aniversariantesMes", associadoRepository.countByMesAniversario(mesAtual));
-        metrics.put("aniversariantesMes", 0); // Placeholder
+        metrics.put("aniversariantesMes", associadoRepository.countByMesAniversario(mesAtual));
 
         return ResponseEntity.ok(metrics);
     }

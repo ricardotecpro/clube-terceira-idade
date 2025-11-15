@@ -1,18 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router, RouterModule } from '@angular/router'; // Importar RouterModule
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // Importar ReactiveFormsModule
-import { NotificationService } from '../notification.service';
-import { CommonModule } from '@angular/common'; // Importar CommonModule
+import { Router, RouterModule } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map, debounceTime, switchMap } from 'rxjs/operators';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
 
-// Importar módulos Angular Material
+import { NotificationService } from '../notification.service';
+import { AssociadosService } from './associados.service';
+import { CidadeService } from '../cidade/cidade.service';
+import { AddCidadeDialogComponent } from '../cidade/add-cidade-dialog.component';
+
+// Importações do Angular Material
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core'; // Para MatDatepicker
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-cadastrar',
@@ -20,26 +28,32 @@ import { MatNativeDateModule } from '@angular/material/core'; // Para MatDatepic
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     RouterModule,
+    ReactiveFormsModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
     MatCardModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatAutocompleteModule,
+    MatIconModule,
+    AddCidadeDialogComponent // Importa o componente do diálogo
   ]
 })
 export class CadastrarComponent implements OnInit {
-
   associadoForm!: FormGroup;
+  filteredCidades!: Observable<any[]>;
 
   constructor(
-    private http: HttpClient,
     private router: Router,
     private fb: FormBuilder,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private associadosService: AssociadosService,
+    private cidadeService: CidadeService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -48,20 +62,56 @@ export class CadastrarComponent implements OnInit {
       cpf: ['', [Validators.required, Validators.pattern('^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$')]],
       dataNascimento: ['', [Validators.required]],
       situacao: ['Adimplente', [Validators.required]],
-      cidadeId: [null, [Validators.required, Validators.min(1)]]
+      cidade: [null, [Validators.required]] // Agora é um objeto
+    });
+
+    this.filteredCidades = this.associadoForm.get('cidade')!.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      switchMap(value => typeof value === 'string' ? this.cidadeService.buscarCidades(value) : [])
+    );
+  }
+
+  displayCidade(cidade: any): string {
+    return cidade && cidade.nome ? `${cidade.nome}, ${cidade.estado}` : '';
+  }
+
+  openAddCidadeDialog(): void {
+    const dialogRef = this.dialog.open(AddCidadeDialogComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cidadeService.criarCidade(result).subscribe({
+          next: (novaCidade) => {
+            this.notificationService.success('Cidade adicionada com sucesso!');
+            this.associadoForm.get('cidade')?.setValue(novaCidade);
+          },
+          error: (err) => {
+            this.notificationService.error('Erro ao adicionar cidade.');
+          }
+        });
+      }
     });
   }
 
   onSubmit() {
     if (this.associadoForm.valid) {
-      this.http.post('/api/associados', this.associadoForm.value).subscribe({
-        next: (response) => {
+      const formValue = this.associadoForm.value;
+      const payload = {
+        ...formValue,
+        cidadeId: formValue.cidade.id
+      };
+      delete payload.cidade;
+
+      this.associadosService.createAssociado(payload).subscribe({
+        next: () => {
           this.notificationService.success('Associado cadastrado com sucesso!');
           this.router.navigate(['/associados']);
         },
-        error: (error) => {
+        error: (err) => {
           this.notificationService.error('Erro ao cadastrar associado.');
-          console.error('Erro ao cadastrar associado:', error);
         }
       });
     } else {

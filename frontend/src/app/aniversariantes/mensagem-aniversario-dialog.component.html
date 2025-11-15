@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Enviar Mensagem para {{ associado.nome }}</h2>
+
+<mat-dialog-content [formGroup]="mensagemForm">
+  <p>Destinatário: {{ associado.email || associado.telefone }}</p>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Tipo de Mensagem</mat-label>
+    <mat-select formControlName="tipo">
+      <mat-option value="EMAIL">E-mail</mat-option>
+      <mat-option value="SMS">SMS</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Assunto</mat-label>
+    <input matInput formControlName="assunto">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Conteúdo da Mensagem</mat-label>
+    <textarea matInput formControlName="conteudo" rows="6"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="enviarMensagem()" [disabled]="mensagemForm.invalid">
+    Enviar
+  </button>
+</mat-dialog-actions>

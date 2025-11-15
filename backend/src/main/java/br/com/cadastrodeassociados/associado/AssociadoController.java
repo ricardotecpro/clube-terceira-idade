@@ -55,11 +55,17 @@ public class AssociadoController {
                             .orElseThrow(() -> new RuntimeException("Cidade não encontrada!"));
 
         Associado associado = new Associado();
+        // Mapeia todos os campos do DTO para a entidade
         associado.setNome(associadoDTO.getNome());
         associado.setCpf(associadoDTO.getCpf());
+        associado.setRg(associadoDTO.getRg());
         associado.setDataNascimento(associadoDTO.getDataNascimento());
+        associado.setTelefone(associadoDTO.getTelefone());
+        associado.setEmail(associadoDTO.getEmail());
+        associado.setEscolaridade(associadoDTO.getEscolaridade());
         associado.setSituacao(associadoDTO.getSituacao());
         associado.setCidade(cidade);
+        associado.setEndereco(associadoDTO.getEndereco());
 
         carteirinhaService.gerenciarCriacaoCarteirinha(associado);
         Associado novoAssociado = associadoRepository.save(associado);
@@ -71,14 +77,21 @@ public class AssociadoController {
     public ResponseEntity<Associado> atualizarAssociado(@PathVariable("id") Long id, @Valid @RequestBody AssociadoRequestDTO associadoDTO) {
         return associadoRepository.findById(id)
                 .map(associadoExistente -> {
-                    associadoExistente.setNome(associadoDTO.getNome());
-                    associadoExistente.setCpf(associadoDTO.getCpf());
-                    associadoExistente.setDataNascimento(associadoDTO.getDataNascimento());
-                    associadoExistente.setSituacao(associadoDTO.getSituacao());
-
+                    // Busca a cidade para garantir que ela seja gerenciada pelo EntityManager
                     Cidade cidade = cidadeRepository.findById(associadoDTO.getCidadeId())
                                         .orElseThrow(() -> new RuntimeException("Cidade não encontrada!"));
+
+                    // Atualiza todos os campos da entidade com os dados do DTO
+                    associadoExistente.setNome(associadoDTO.getNome());
+                    associadoExistente.setCpf(associadoDTO.getCpf());
+                    associadoExistente.setRg(associadoDTO.getRg());
+                    associadoExistente.setDataNascimento(associadoDTO.getDataNascimento());
+                    associadoExistente.setTelefone(associadoDTO.getTelefone());
+                    associadoExistente.setEmail(associadoDTO.getEmail());
+                    associadoExistente.setEscolaridade(associadoDTO.getEscolaridade());
+                    associadoExistente.setSituacao(associadoDTO.getSituacao());
                     associadoExistente.setCidade(cidade);
+                    associadoExistente.setEndereco(associadoDTO.getEndereco());
 
                     Associado salvo = associadoRepository.save(associadoExistente);
                     return ResponseEntity.ok(salvo);

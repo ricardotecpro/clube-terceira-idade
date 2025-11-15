@@ -1,5 +1,6 @@
 package br.com.cadastrodeassociados.associado.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -22,9 +23,18 @@ public class AssociadoRequestDTO {
     @Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$", message = "CPF inválido. Use o formato XXX.XXX.XXX-XX.")
     private String cpf;
 
+    private String rg;
+
     @NotNull(message = "A data de nascimento é obrigatória.")
     @PastOrPresent(message = "A data de nascimento não pode ser futura.")
     private LocalDate dataNascimento;
+
+    private String telefone;
+
+    @Email(message = "Formato de e-mail inválido.")
+    private String email;
+
+    private String escolaridade;
 
     @NotBlank(message = "A situação é obrigatória.")
     @Pattern(regexp = "Adimplente|Inadimplente", message = "A situação deve ser 'Adimplente' ou 'Inadimplente'.")
@@ -32,4 +42,6 @@ public class AssociadoRequestDTO {
 
     @NotNull(message = "O ID da cidade é obrigatório.")
     private Long cidadeId;
+
+    private String endereco;
 }

@@ -1,18 +1,9 @@
--- Inserir Cidades
-INSERT INTO cidade (id, nome, estado) VALUES (1, 'São Paulo', 'SP');
-INSERT INTO cidade (id, nome, estado) VALUES (2, 'Rio de Janeiro', 'RJ');
-
--- Inserir Associados
-INSERT INTO associado (id, nome, cpf, data_nascimento, situacao, cidade_id) VALUES
-(1001, 'Maria Oliveira da Silva', '111.222.333-44', '1960-05-15', 'Adimplente', 1),
-(1002, 'José Pereira Souza', '444.555.666-77', '1955-08-20', 'Inadimplente', 2),
-(1003, 'Antônio Carlos Mendes', '777.888.999-00', '1962-11-30', 'Adimplente', 1);
+-- Inserir Cidades (sem IDs para auto-incremento funcionar)
+INSERT INTO cidade (nome, estado) VALUES ('São Paulo', 'SP');
+INSERT INTO cidade (nome, estado) VALUES ('Rio de Janeiro', 'RJ');
 
 -- Inserir Pagamentos
-INSERT INTO pagamento (id, valor, data_pagamento, tipo_pagamento, forma_pagamento, associado_id) VALUES
-(1, 50.00, '2025-11-10', 'Mensalidade', 'Cartão de Crédito', 1001),
-(2, 50.00, '2025-11-10', 'Mensalidade', NULL, 1002), -- Pendente
-(3, 50.00, '2025-11-10', 'Mensalidade', 'Boleto', 1003);
+-- Removido temporariamente para evitar erros de chave estrangeira com associados
 
 -- Inserir Eventos
 INSERT INTO evento (id, nome, data, descricao) VALUES

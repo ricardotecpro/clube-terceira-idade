@@ -1,72 +1,70 @@
-<mat-card class="form-container">
-  <mat-card-title>Cadastrar Novo Associado</mat-card-title>
-  <mat-card-content>
+<main class="main-content">
+  <header class="main-header">
+    <h1>Cadastrar Novo Associado</h1>
+  </header>
+
+  <div class="form-container">
     <form [formGroup]="associadoForm" (ngSubmit)="onSubmit()">
-      <div class="form-grid">
-        <mat-form-field appearance="fill" class="col-span-2">
-          <mat-label>Nome Completo</mat-label>
-          <input matInput formControlName="nome" maxlength="100">
-          <mat-error *ngIf="associadoForm.get('nome')?.hasError('required')">Nome é obrigatório.</mat-error>
-          <mat-error *ngIf="associadoForm.get('nome')?.hasError('minlength')">Nome deve ter no mínimo 3 caracteres.</mat-error>
-          <mat-error *ngIf="associadoForm.get('nome')?.hasError('maxlength')">Nome deve ter no máximo 100 caracteres.</mat-error>
-        </mat-form-field>
+      <fieldset>
+        <legend>Dados Pessoais</legend>
+        <div class="form-grid">
+          <div class="form-group col-span-2">
+            <mat-form-field appearance="fill" style="width: 100%;">
+              <mat-label>Nome Completo</mat-label>
+              <input matInput formControlName="nome" maxlength="100">
+              <mat-error *ngIf="associadoForm.get('nome')?.invalid">Nome é obrigatório (mín. 3 caracteres).</mat-error>
+            </mat-form-field>
+          </div>
 
-        <mat-form-field appearance="fill">
-          <mat-label>CPF</mat-label>
-          <input matInput formControlName="cpf" placeholder="Ex: 123.456.789-00">
-          <mat-error *ngIf="associadoForm.get('cpf')?.hasError('required')">CPF é obrigatório.</mat-error>
-          <mat-error *ngIf="associadoForm.get('cpf')?.hasError('pattern')">CPF inválido. Use o formato XXX.XXX.XXX-XX.</mat-error>
-        </mat-form-field>
+          <div class="form-group">
+            <mat-form-field appearance="fill" style="width: 100%;">
+              <mat-label>CPF</mat-label>
+              <input matInput formControlName="cpf" placeholder="Ex: 123.456.789-00">
+              <mat-error *ngIf="associadoForm.get('cpf')?.invalid">CPF é obrigatório e deve estar no formato correto.</mat-error>
+            </mat-form-field>
+          </div>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Data de Nascimento</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="dataNascimento">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-          <mat-error *ngIf="associadoForm.get('dataNascimento')?.hasError('required')">Data de Nascimento é obrigatória.</mat-error>
-        </mat-form-field>
+          <div class="form-group">
+            <mat-form-field appearance="fill" style="width: 100%;">
+              <mat-label>Data de Nascimento</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="dataNascimento">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="associadoForm.get('dataNascimento')?.invalid">Data de Nascimento é obrigatória.</mat-error>
+            </mat-form-field>
+          </div>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Situação</mat-label>
-          <mat-select formControlName="situacao">
-            <mat-option value="Adimplente">Adimplente</mat-option>
-            <mat-option value="Inadimplente">Inadimplente</mat-option>
-          </mat-select>
-          <mat-error *ngIf="associadoForm.get('situacao')?.hasError('required')">Situação é obrigatória.</mat-error>
-        </mat-form-field>
+          <div class="form-group">
+            <mat-form-field appearance="fill" style="width: 100%;">
+              <mat-label>Situação</mat-label>
+              <mat-select formControlName="situacao">
+                <mat-option value="Adimplente">Adimplente</mat-option>
+                <mat-option value="Inadimplente">Inadimplente</mat-option>
+              </mat-select>
+              <mat-error *ngIf="associadoForm.get('situacao')?.invalid">Situação é obrigatória.</mat-error>
+            </mat-form-field>
+          </div>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Cidade (ID)</mat-label>
-          <input matInput type="number" formControlName="cidadeId">
-          <mat-error *ngIf="associadoForm.get('cidadeId')?.hasError('required')">ID da Cidade é obrigatório.</mat-error>
-          <mat-error *ngIf="associadoForm.get('cidadeId')?.hasError('min')">ID da Cidade deve ser no mínimo 1.</mat-error>
-        </mat-form-field>
-      </div>
+          <div class="form-group">
+            <mat-form-field appearance="fill" style="width: 100%;">
+              <mat-label>Cidade</mat-label>
+              <input type="text" matInput formControlName="cidade" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCidade">
+                <mat-option *ngFor="let cidade of filteredCidades | async" [value]="cidade">
+                  {{ cidade.nome }}, {{ cidade.estado }}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="associadoForm.get('cidade')?.invalid">Cidade é obrigatória.</mat-error>
+            </mat-form-field>
+            <button mat-stroked-button type="button" (click)="openAddCidadeDialog()">Nova Cidade</button>
+          </div>
+        </div>
+      </fieldset>
 
-      <mat-card-actions class="form-actions">
-        <button mat-button routerLink="/associados">Cancelar</button>
+      <div class="form-actions">
+        <a mat-stroked-button color="warn" routerLink="/associados">Cancelar</a>
         <button mat-raised-button color="primary" type="submit" [disabled]="associadoForm.invalid">Salvar Cadastro</button>
-      </mat-card-actions>
+      </div>
     </form>
-  </mat-card-content>
-</mat-card>
-
-<style>
-  .form-container {
-    padding: 20px;
-  }
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  .col-span-2 {
-    grid-column: span 2;
-  }
-</style>
+  </div>
+</main>

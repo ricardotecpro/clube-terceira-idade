@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface AssociadoRepository extends JpaRepository<Associado, Long> {
+public interface AssociadoRepository extends JpaRepository<Associado, Long>, AssociadoRepositoryCustom {
 
     List<Associado> findByNomeContainingIgnoreCase(String nome);
 
@@ -33,4 +33,16 @@ public interface AssociadoRepository extends JpaRepository<Associado, Long> {
             @Param("dataNascimentoMax") LocalDate dataNascimentoMax);
 
     long countBySituacao(String situacao);
+
+    @Query("SELECT count(a) FROM Associado a WHERE FUNCTION('MONTH', a.dataNascimento) = :mes")
+    long countByMesAniversario(@Param("mes") int mes);
+
+    @Query("SELECT a FROM Associado a WHERE FUNCTION('MONTH', a.dataNascimento) = :mes ORDER BY FUNCTION('DAY', a.dataNascimento)")
+    List<Associado> findByMesAniversario(@Param("mes") int mes);
+
+    @Query("SELECT a FROM Associado a WHERE FUNCTION('DAY', a.dataNascimento) = :dia AND FUNCTION('MONTH', a.dataNascimento) = :mes")
+    List<Associado> findByDiaAniversario(@Param("dia") int dia, @Param("mes") int mes);
+
+    @Query("SELECT a FROM Associado a WHERE FUNCTION('DAY_OF_YEAR', a.dataNascimento) BETWEEN :inicioSemana AND :fimSemana ORDER BY FUNCTION('DAY_OF_YEAR', a.dataNascimento)")
+    List<Associado> findBySemanaAniversario(@Param("inicioSemana") int inicioSemana, @Param("fimSemana") int fimSemana);
 }

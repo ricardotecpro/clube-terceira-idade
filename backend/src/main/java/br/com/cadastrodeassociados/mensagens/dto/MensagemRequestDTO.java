@@ -13,6 +13,10 @@ import java.util.List;
 @Setter
 public class MensagemRequestDTO {
 
+    @NotBlank(message = "O título da mensagem é obrigatório.")
+    @Size(min = 1, max = 100, message = "O título deve ter entre 1 e 100 caracteres.")
+    private String titulo;
+
     @NotBlank(message = "O conteúdo da mensagem é obrigatório.")
     @Size(min = 1, max = 500, message = "O conteúdo deve ter entre 1 e 500 caracteres.")
     private String conteudo;

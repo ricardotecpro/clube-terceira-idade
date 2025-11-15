@@ -19,9 +19,11 @@ export const routes: Routes = [
           { path: 'editar/:id', loadComponent: () => import('./associados/associado.component').then(m => m.AssociadoDetalheComponent) }
         ]
       },
+      { path: 'cidades', loadComponent: () => import('./cidades/cidades.component').then(m => m.CidadesComponent) },
       { path: 'pagamentos', loadComponent: () => import('./pagamentos/pagamentos.component').then(m => m.PagamentosComponent) },
       { path: 'relatorios', loadComponent: () => import('./relatorios/relatorios.component').then(m => m.RelatoriosComponent) },
       { path: 'eventos', loadComponent: () => import('./eventos/eventos.component').then(m => m.EventosComponent) },
+      { path: 'aniversariantes', loadComponent: () => import('./aniversariantes/aniversariantes.component').then(m => m.AniversariantesComponent) },
       { path: 'mensagens', loadComponent: () => import('./mensagens/mensagem.component').then(m => m.MensagemComponent) },
       { path: 'admin', loadComponent: () => import('./admin/admin.component').then(m => m.AdminComponent) }
     ]

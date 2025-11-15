@@ -22,8 +22,8 @@ public class BirthdayNotificationScheduler {
     @Autowired
     private MensagemService mensagemService;
 
-    // Executa diariamente à meia-noite
-    @Scheduled(cron = "0 0 0 * * ?")
+    // Executa diariamente às 08:00 da manhã
+    @Scheduled(cron = "0 0 8 * * ?")
     public void notificarAniversariantes() {
         LocalDate hoje = LocalDate.now();
         int mesAtual = hoje.getMonthValue();
@@ -38,14 +38,16 @@ public class BirthdayNotificationScheduler {
         if (!aniversariantesDoDia.isEmpty()) {
             System.out.println("Verificando aniversariantes do dia para notificação...");
             for (Associado associado : aniversariantesDoDia) {
+                String tituloMensagem = "Feliz Aniversário!";
                 String conteudoMensagem = String.format(
-                        "Feliz Aniversário, %s! Desejamos a você um dia maravilhoso e muitas felicidades!",
+                        "Olá, %s!\n\nO Clube da Terceira Idade de Assis deseja a você um feliz aniversário, com muita saúde, paz e alegria!\n\nAtenciosamente,\nA Diretoria.",
                         associado.getNome()
                 );
 
                 MensagemRequestDTO mensagemDTO = new MensagemRequestDTO();
+                mensagemDTO.setTitulo(tituloMensagem);
                 mensagemDTO.setConteudo(conteudoMensagem);
-                mensagemDTO.setTipo("EMAIL"); // Ou SMS, dependendo da configuração
+                mensagemDTO.setTipo("EMAIL");
                 mensagemDTO.setDestinatarioIds(Collections.singletonList(associado.getId()));
 
                 try {

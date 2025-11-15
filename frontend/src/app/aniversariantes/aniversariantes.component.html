@@ -1,0 +1,60 @@
+<div class="container">
+  <mat-card class="main-card">
+    <mat-card-header>
+      <mat-card-title>Aniversariantes</mat-card-title>
+      <mat-card-subtitle>Selecione o período para ver os aniversariantes e enviar felicitações.</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-button-toggle-group [(ngModel)]="periodoSelecionado" (change)="onPeriodoChange()" aria-label="Período">
+        <mat-button-toggle value="dia">Dia</mat-button-toggle>
+        <mat-button-toggle value="semana">Semana</mat-button-toggle>
+        <mat-button-toggle value="mes">Mês</mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <div class="table-container mat-elevation-z8">
+        <table mat-table [dataSource]="aniversariantes">
+
+          <!-- Coluna Nome -->
+          <ng-container matColumnDef="nome">
+            <th mat-header-cell *matHeaderCellDef> Nome </th>
+            <td mat-cell *matCellDef="let associado"> {{associado.nome}} </td>
+          </ng-container>
+
+          <!-- Coluna Data de Nascimento -->
+          <ng-container matColumnDef="dataNascimento">
+            <th mat-header-cell *matHeaderCellDef> Data de Nascimento </th>
+            <td mat-cell *matCellDef="let associado"> {{associado.dataNascimento | date:'dd/MM/yyyy'}} </td>
+          </ng-container>
+
+          <!-- Coluna Contato -->
+          <ng-container matColumnDef="contato">
+            <th mat-header-cell *matHeaderCellDef> Contato </th>
+            <td mat-cell *matCellDef="let associado"> {{associado.email || associado.telefone}} </td>
+          </ng-container>
+
+          <!-- Coluna Ações -->
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef> Ações </th>
+            <td mat-cell *matCellDef="let associado">
+              <button mat-icon-button color="primary" (click)="abrirDialogoMensagem(associado)"
+                      aria-label="Enviar mensagem de feliz aniversário">
+                <mat-icon>cake</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Mensagem de Tabela Vazia -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+              Nenhum aniversariante encontrado para o período selecionado.
+            </td>
+          </tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
