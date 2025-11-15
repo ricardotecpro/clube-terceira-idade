@@ -14,8 +14,7 @@ import { MatCardModule } from '@angular/material/card'; // Para o container do l
 @Component({
   selector: 'app-login',
   templateUrl: './login.html',
-  styleUrls: ['./login.css'],
-  standalone: true, // AGORA É STANDALONE
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -53,6 +52,7 @@ export class LoginComponent implements OnInit {
             this.notificationService.error('Usuário ou senha inválidos.');
           } else {
             this.notificationService.success('Login realizado com sucesso!');
+            this.router.navigate(['/dashboard']); // Redireciona para o dashboard
           }
         });
     } else {

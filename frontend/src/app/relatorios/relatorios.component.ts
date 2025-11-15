@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'; // Importar
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // Importar
 import { NotificationService } from '../notification.service'; // Importar
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-relatorios',
     templateUrl: './relatorios.html',
-    styleUrl: './relatorios.css',
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule]
 })
 export class RelatoriosComponent implements OnInit {
     relatorioForm!: FormGroup; // Usar FormGroup

@@ -1,6 +1,7 @@
 package br.com.cadastrodeassociados.pagamento;
 
 import br.com.cadastrodeassociados.associado.Associado;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,5 +30,6 @@ public class Pagamento {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "associado_id")
+    @JsonIgnore
     private Associado associado;
 }

@@ -10,8 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css',
-  standalone: true, // AGORA É STANDALONE
+  standalone: true,
   imports: [
     CommonModule,
     MatCardModule,

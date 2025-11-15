@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from './admin.service';
 import { NotificationService } from '../notification.service';
 import { ConfirmationModalService } from '../confirmation-modal/confirmation-modal.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css'],
-  standalone: false
+  standalone: true,
+  imports: [FormsModule, CommonModule]
 })
 export class AdminComponent implements OnInit {
   backupFileName: string = ''; // Para o nome do arquivo de restore

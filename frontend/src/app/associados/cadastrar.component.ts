@@ -17,8 +17,7 @@ import { MatNativeDateModule } from '@angular/material/core'; // Para MatDatepic
 @Component({
   selector: 'app-cadastrar',
   templateUrl: './cadastrar.html',
-  styleUrls: ['./cadastrar.css'],
-  standalone: true, // AGORA É STANDALONE
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

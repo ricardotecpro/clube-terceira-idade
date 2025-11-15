@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MensagemService } from './mensagem.service';
 import { AssociadosService } from '../associados/associados.service'; // Precisamos de um serviço para associados
 import { NotificationService } from '../notification.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-mensagem',
   templateUrl: './mensagem.component.html',
-  styleUrls: ['./mensagem.component.css'],
-  standalone: false
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class MensagemComponent implements OnInit {
   mensagemForm!: FormGroup;

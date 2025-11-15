@@ -13,8 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.css'],
-  standalone: true, // AGORA É STANDALONE
+  standalone: true,
   imports: [
     CommonModule,
     RouterOutlet,
@@ -31,5 +30,10 @@ export class LayoutComponent {
 
   logout(): void {
     this.authService.logout();
+  }
+
+  getToolbarTitle(): string {
+    // Lógica para determinar o título pode ser adicionada aqui
+    return 'Gestão de Associados';
   }
 }

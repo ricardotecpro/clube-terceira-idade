@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'; // Importar
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // Importar
 import { NotificationService } from '../notification.service'; // Importar
 import { ConfirmationModalService } from '../confirmation-modal/confirmation-modal.service'; // Importar
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-pagamentos',
     templateUrl: './pagamentos.html',
-    styleUrl: './pagamentos.css',
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule]
 })
 export class PagamentosComponent implements OnInit {
     pagamentos: any[] = [];

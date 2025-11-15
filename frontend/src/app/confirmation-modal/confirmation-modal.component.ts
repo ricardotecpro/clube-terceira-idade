@@ -11,8 +11,7 @@ import { MatCardModule } from '@angular/material/card'; // Para o modal customiz
 @Component({
   selector: 'app-confirmation-modal',
   templateUrl: './confirmation-modal.component.html',
-  styleUrls: ['./confirmation-modal.component.css'],
-  standalone: true, // AGORA É STANDALONE
+  standalone: true,
   imports: [
     CommonModule,
     MatDialogModule, // Se for usar MatDialog

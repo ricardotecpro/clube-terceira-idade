@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationModalService } from '../confirmation-modal/confirmation-modal.service';
 import { NotificationService } from '../notification.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-eventos',
   templateUrl: './eventos.html',
-  styleUrl: './eventos.css',
-  standalone: false
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class EventosComponent implements OnInit {
   eventos: any[] = [];

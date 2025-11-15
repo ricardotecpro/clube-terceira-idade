@@ -21,8 +21,7 @@ import { MatTableModule } from '@angular/material/table';
 @Component({
   selector: 'app-associado-detalhe',
   templateUrl: './associado.html',
-  styleUrls: ['./associado.css'],
-  standalone: true, // AGORA É STANDALONE
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
